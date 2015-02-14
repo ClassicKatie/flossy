@@ -42,12 +42,12 @@ def distance_sqrd(input_RGB, floss_RGB):
     return distance_sqrd
 
 def main():
-    parser = argparse.ArgumentParser(description='Convert RGB Value to DMC Floss #')
-    parser.add_argument('-r', '--red', metavar='Red', type=int, required=True, help='Enter the Red Value:')
-    parser.add_argument('-g', '--green', metavar='Green', type=int, required=True, help='Enter the Green Value:')
-    parser.add_argument('-b', '--blue', metavar='Blue', type=int, required=True, help='Enter the Blue Value:')
+    parser = argparse.ArgumentParser(description='''Convert RGB Value to DMC Floss #.  Enter either RGB values or a .csv file''')
+    parser.add_argument('-r', '--red', metavar='Red', type=int, required=False, help='Enter the Red Value:')
+    parser.add_argument('-g', '--green', metavar='Green', type=int, required=False, help='Enter the Green Value:')
+    parser.add_argument('-b', '--blue', metavar='Blue', type=int, required=False, help='Enter the Blue Value:')
+    parser.add_argument('-f', '--file', metavar='Input File', required=False, help='Enter path to csv file:')
     args = parser.parse_args()
-
 
     with open('DMC Floss.csv') as csv_file:
         reader = csv.DictReader(csv_file)
@@ -58,7 +58,35 @@ def main():
             floss_list.append(row)
             # print row
 
-    print find_floss(args.red, args.green, args.blue)
+    all_args = args.red, args.green, args.blue, args.file
+    color_args = args.red, args.green, args.blue
+
+    if not any(all_args):
+        parser.print_help()
+        return 1
+
+    elif any(color_args) and not all(color_args):
+        parser.print_help()
+        return 1
+
+    elif any(color_args) and args.file:
+        parser.print_help()
+        return 1
+
+    elif all(color_args):
+        print find_floss(args.red, args.green, args.blue)
+
+    else:
+        with open(args.file) as csv_file:
+            flosses = set()
+            reader = csv.reader(csv_file)
+            for row in reader:
+                row = [int(v) for v in row]
+                temp_floss = find_floss(*row)
+                flosses.add(temp_floss)
+            print flosses
+
+
     return 0
 
 if __name__ == '__main__':
