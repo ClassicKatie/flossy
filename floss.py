@@ -34,7 +34,7 @@ def find_floss(red, green, blue):
         dist = distance_sqrd(input_RGB, floss_RGB)
         if dist < min_distance:
             min_distance = dist
-            floss_num = item['Floss#']
+            floss_num = item['Floss#'].strip()
     return floss_num
 
 def distance_sqrd(input_RGB, floss_RGB):
@@ -49,14 +49,14 @@ def main():
     parser.add_argument('-f', '--file', metavar='Input File', required=False, help='Enter path to csv file:')
     args = parser.parse_args()
 
-    with open('DMC Floss.csv') as csv_file:
+    with open('DMC Floss.csv', 'U') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             row['Red'] = int(row['Red'])
             row['Green'] = int(row['Green'])
             row['Blue'] = int(row['Blue'])
             floss_list.append(row)
-            # print row
+            #print row
 
     all_args = args.red, args.green, args.blue, args.file
     color_args = args.red, args.green, args.blue
@@ -77,14 +77,15 @@ def main():
         print find_floss(args.red, args.green, args.blue)
 
     else:
-        with open(args.file) as csv_file:
+        with open(args.file, 'U') as csv_file:
             flosses = set()
             reader = csv.reader(csv_file)
             for row in reader:
                 row = [int(v) for v in row]
                 temp_floss = find_floss(*row)
                 flosses.add(temp_floss)
-            print flosses
+            for item in flosses:
+                print item
 
 
     return 0
