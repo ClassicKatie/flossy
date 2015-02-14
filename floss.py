@@ -3,6 +3,7 @@ __author__ = 'katherineford'
 import csv
 import sys
 import argparse
+from PIL import Image
 floss_list = []
 
 def get_RGB():
@@ -47,6 +48,8 @@ def main():
     parser.add_argument('-g', '--green', metavar='Green', type=int, required=False, help='Enter the Green Value:')
     parser.add_argument('-b', '--blue', metavar='Blue', type=int, required=False, help='Enter the Blue Value:')
     parser.add_argument('-f', '--file', metavar='Input File', required=False, help='Enter path to csv file:')
+    parser.add_argument('-p', '--picture', metavar='Pixellated Image File', required=False, help='Enter path to bmp file')
+
     args = parser.parse_args()
 
     with open('DMC Floss.csv', 'U') as csv_file:
@@ -58,8 +61,9 @@ def main():
             floss_list.append(row)
             #print row
 
-    all_args = args.red, args.green, args.blue, args.file
+    all_args = args.red, args.green, args.blue, args.file, args.picture
     color_args = args.red, args.green, args.blue
+    flosses = set()
 
     if not any(all_args):
         parser.print_help()
@@ -69,16 +73,35 @@ def main():
         parser.print_help()
         return 1
 
-    elif any(color_args) and args.file:
+    elif any(color_args) and (args.file or args.picture):
+        parser.print_help()
+        return 1
+
+    elif args.file and args.picture:
         parser.print_help()
         return 1
 
     elif all(color_args):
         print find_floss(args.red, args.green, args.blue)
+    elif args.picture:
+        # todo: finish
+        im = Image.open(args.picture) #Can be many different formats.
+        pix = im.load()
+        print 'Image size is ', im.size #Get the width and hight of the image for iterating over
 
+        for row in range(im.size[0]):
+            for col in range(im.size[1]):
+                flosses.add(find_floss(*pix[row,col]))
+
+        # print find_floss(*pix[32,32])
+        # print pix[32,32] #Get the RGBA Value of the a pixel of an image
+
+        for item in flosses:
+            print item
+
+            
     else:
         with open(args.file, 'U') as csv_file:
-            flosses = set()
             reader = csv.reader(csv_file)
             for row in reader:
                 row = [int(v) for v in row]
