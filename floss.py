@@ -2,6 +2,7 @@ __author__ = 'katherineford'
 
 import csv
 import sys
+import argparse
 floss_list = []
 
 def get_RGB():
@@ -41,6 +42,13 @@ def distance_sqrd(input_RGB, floss_RGB):
     return distance_sqrd
 
 def main():
+    parser = argparse.ArgumentParser(description='Convert RGB Value to DMC Floss #')
+    parser.add_argument('-r', '--red', metavar='Red', type=int, required=True, help='Enter the Red Value:')
+    parser.add_argument('-g', '--green', metavar='Green', type=int, required=True, help='Enter the Green Value:')
+    parser.add_argument('-b', '--blue', metavar='Blue', type=int, required=True, help='Enter the Blue Value:')
+    args = parser.parse_args()
+
+
     with open('DMC Floss.csv') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
@@ -48,10 +56,9 @@ def main():
             row['Green'] = int(row['Green'])
             row['Blue'] = int(row['Blue'])
             floss_list.append(row)
-            print row
+            # print row
 
-    print find_floss(35, 240, 76)
-    print find_floss(*get_RGB())
+    print find_floss(args.red, args.green, args.blue)
     return 0
 
 if __name__ == '__main__':
