@@ -1,20 +1,17 @@
+#!/usr/bin/env python
 __author__ = 'katherineford'
+
+"""
+Copyright 2015
+Katherine Ford
+All Rights Reserved
+"""
 
 import csv
 import sys
 import argparse
 from PIL import Image
 floss_list = []
-
-def get_RGB():
-    """
-    Gets user input of RGB value
-    :return:
-    """
-
-    # todo: make this work
-
-    return (0,0,0)
 
 def find_floss(red, green, blue):
     """
