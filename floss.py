@@ -44,7 +44,6 @@ def main():
     parser.add_argument('-r', '--red', metavar='Red', type=int, required=False, help='Enter the Red Value:')
     parser.add_argument('-g', '--green', metavar='Green', type=int, required=False, help='Enter the Green Value:')
     parser.add_argument('-b', '--blue', metavar='Blue', type=int, required=False, help='Enter the Blue Value:')
-    parser.add_argument('-f', '--file', metavar='Input File', required=False, help='Enter path to csv file:')
     parser.add_argument('-p', '--picture', metavar='Pixellated Image File', required=False, help='Enter path to bmp file')
 
     args = parser.parse_args()
@@ -58,9 +57,12 @@ def main():
             floss_list.append(row)
             #print row
 
-    all_args = args.red, args.green, args.blue, args.file, args.picture
+    all_args = args.red, args.green, args.blue, args.picture
     color_args = args.red, args.green, args.blue
     flosses = set()
+    flosses_dict = {}
+    floss_num_chart = []
+    symbol_chart = []
 
     if not any(all_args):
         parser.print_help()
@@ -70,16 +72,9 @@ def main():
         parser.print_help()
         return 1
 
-    elif any(color_args) and (args.file or args.picture):
-        parser.print_help()
-        return 1
-
-    elif args.file and args.picture:
-        parser.print_help()
-        return 1
-
     elif all(color_args):
         print find_floss(args.red, args.green, args.blue)
+
     elif args.picture:
         # todo: finish
         im = Image.open(args.picture) #Can be many different formats.
@@ -87,14 +82,28 @@ def main():
         print 'Image size is ', im.size #Get the width and hight of the image for iterating over
 
         for row in range(im.size[0]):
+            templist = []
             for col in range(im.size[1]):
                 flosses.add(find_floss(*pix[row,col]))
+                templist.append(find_floss(*pix[row,col]))
+            floss_num_chart.append(templist)
+            
 
         # print find_floss(*pix[32,32])
         # print pix[32,32] #Get the RGBA Value of the a pixel of an image
 
-        for item in flosses:
-            print item
+        # for row_index, row in enumerate(floss_num_chart):
+        #     for col_index, col in enumerate(row):
+        #         if col == '310':
+        #             floss_num_chart[i][j] = 'X'
+
+        #for item in flosses:
+            #print item
+
+        #print floss_num_chart
+        for row in floss_num_chart:
+            print row
+        #print symbol_chart
 
             
     else:
