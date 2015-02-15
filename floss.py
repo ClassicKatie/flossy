@@ -19,17 +19,18 @@ floss_list = []
 
 class Pattern(object):
     def __init__(self, image):
-        pix = image.load()
+        image = image.convert('RGB')
         floss_num_chart = []
 
         self.floss_num_chart = floss_num_chart
-        self.avail_symbols = list(string.uppercase[::-1])
+        self.avail_symbols = list(string.lowercase[::-1]) + list(string.uppercase[::-1])
         self.floss_symbol_map = {}
 
         for row in range(image.size[0]):
             templist = []
             for col in range(image.size[1]):
-                floss_num = find_floss(*pix[row,col])
+                r, g, b = image.getpixel((row,col))
+                floss_num = find_floss(r, g, b)
                 if floss_num not in self.floss_symbol_map:
                     self.floss_symbol_map[floss_num] = self.avail_symbols.pop()
                 templist.append(floss_num)
