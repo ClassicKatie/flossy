@@ -10,8 +10,51 @@ All Rights Reserved
 import csv
 import sys
 import argparse
+import string
 from PIL import Image
+from jinja2 import Environment, PackageLoader, Template
+env = Environment(loader=PackageLoader('floss', 'templates'))
+
 floss_list = []
+
+class Pattern(object):
+    def __init__(self, image):
+        pix = image.load()
+        floss_num_chart = []
+
+        self.floss_num_chart = floss_num_chart
+        self.avail_symbols = list(string.uppercase[::-1])
+        self.floss_symbol_map = {}
+
+        for row in range(image.size[0]):
+            templist = []
+            for col in range(image.size[1]):
+                floss_num = find_floss(*pix[row,col])
+                if floss_num not in self.floss_symbol_map:
+                    self.floss_symbol_map[floss_num] = self.avail_symbols.pop()
+                templist.append(floss_num)
+            self.floss_num_chart.append(templist)
+
+    def get_symbol_chart(self):
+        symbol_chart = []
+
+        for row in self.floss_num_chart:
+            templist = []
+            for floss_instance in row:
+                templist.append(self.floss_symbol_map[floss_instance])
+            symbol_chart.append(templist)
+
+        return symbol_chart
+
+    def get_context_data(self):
+        return {'floss_symbol_map': self.floss_symbol_map, 'symbol_chart': self.get_symbol_chart()}
+
+    def render_HTML(self):
+        template = env.get_template('xstitchpattern.html')
+        return template.render(self.get_context_data())
+
+    pass
+
 
 def find_floss(red, green, blue):
     """
@@ -59,10 +102,7 @@ def main():
 
     all_args = args.red, args.green, args.blue, args.picture
     color_args = args.red, args.green, args.blue
-    flosses = set()
-    flosses_dict = {}
-    floss_num_chart = []
-    symbol_chart = []
+
 
     if not any(all_args):
         parser.print_help()
@@ -78,43 +118,12 @@ def main():
     elif args.picture:
         # todo: finish
         im = Image.open(args.picture) #Can be many different formats.
-        pix = im.load()
         print 'Image size is ', im.size #Get the width and hight of the image for iterating over
 
-        for row in range(im.size[0]):
-            templist = []
-            for col in range(im.size[1]):
-                flosses.add(find_floss(*pix[row,col]))
-                templist.append(find_floss(*pix[row,col]))
-            floss_num_chart.append(templist)
-            
+        #print Pattern(im).floss_num_chart
 
-        # print find_floss(*pix[32,32])
-        # print pix[32,32] #Get the RGBA Value of the a pixel of an image
-
-        # for row_index, row in enumerate(floss_num_chart):
-        #     for col_index, col in enumerate(row):
-        #         if col == '310':
-        #             floss_num_chart[i][j] = 'X'
-
-        #for item in flosses:
-            #print item
-
-        #print floss_num_chart
-        for row in floss_num_chart:
-            print row
-        #print symbol_chart
-
-            
-    else:
-        with open(args.file, 'U') as csv_file:
-            reader = csv.reader(csv_file)
-            for row in reader:
-                row = [int(v) for v in row]
-                temp_floss = find_floss(*row)
-                flosses.add(temp_floss)
-            for item in flosses:
-                print item
+        my_pattern = Pattern(im)
+        print my_pattern.render_HTML()
 
 
     return 0
