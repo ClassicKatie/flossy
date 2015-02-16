@@ -20,9 +20,8 @@ floss_list = []
 class Pattern(object):
     def __init__(self, image):
         image = image.convert('RGB')
-        floss_num_chart = []
 
-        self.floss_num_chart = floss_num_chart
+        self.floss_num_chart = []
         self.avail_symbols = list(string.lowercase[::-1]) + list(string.uppercase[::-1])
         self.floss_symbol_map = {}
 
@@ -50,7 +49,7 @@ class Pattern(object):
         return symbol_chart
 
     def get_context_data(self):
-        return {'floss_symbol_map': self.floss_symbol_map, 'symbol_chart': self.get_symbol_chart()}
+        return {'floss_symbol_map': self.floss_symbol_map, 'symbol_chart': self.get_symbol_chart(), 'floss_list': floss_list, 'floss_num_chart': self.floss_num_chart}
 
     def render_HTML(self):
         template = env.get_template('xstitchpattern.html')
@@ -127,7 +126,6 @@ def main():
 
         my_pattern = Pattern(im)
         print my_pattern.render_HTML()
-
 
     return 0
 
