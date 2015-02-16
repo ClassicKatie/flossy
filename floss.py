@@ -126,6 +126,8 @@ def main():
 
         my_pattern = Pattern(im)
         print my_pattern.render_HTML()
+        print len(my_pattern.floss_num_chart)
+
 
     return 0
 

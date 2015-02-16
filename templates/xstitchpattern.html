@@ -7,20 +7,21 @@
 <li>{{key}}, {{value}}</li>
 {% endfor %}
 
-{# Commented out while updating main...
+
 <table border="1">
 
-    {% for floss_row in range(len(floss_num_chart)) %}
+    {% for floss_row in range(floss_num_chart|length) %}
     <tr border="1">
-        {% for index, item in floss_num_chart[floss_row] %}
+
+        {% for floss_col in range(floss_num_chart|length) %}
         <td border="1">
             {{floss_num_chart[floss_row][index]}}
         </td>
         {% endfor %}
+
 
     </tr>
     {% endfor %}
 
 </table>
 
-#}
