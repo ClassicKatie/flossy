@@ -29,7 +29,7 @@ class Pattern(object):
             templist = []
             for col in range(image.size[1]):
                 r, g, b = image.getpixel((row,col))
-                floss_num = find_floss(r, g, b)
+                floss_num = find_floss(r, g, b)[0]
                 if floss_num not in self.floss_symbol_map:
                     floss_data = {'symbol': self.avail_symbols.pop(), 'count': 0}
                     self.floss_symbol_map[floss_num] = floss_data
@@ -49,7 +49,7 @@ class Pattern(object):
         return symbol_chart
 
     def get_context_data(self):
-        return {'floss_symbol_map': self.floss_symbol_map, 'symbol_chart': self.get_symbol_chart(), 'floss_list': floss_list, 'floss_num_chart': self.floss_num_chart}
+        return {'floss_symbol_map': self.floss_symbol_map, 'symbol_chart': self.get_symbol_chart(), 'floss_num_chart': self.floss_num_chart}
 
     def render_HTML(self):
         template = env.get_template('xstitchpattern.html')
@@ -78,7 +78,8 @@ def find_floss(red, green, blue):
         if dist < min_distance:
             min_distance = dist
             floss_num = item['Floss#'].strip()
-    return floss_num
+            rgb_hex = item['RGB code']
+    return floss_num, rgb_hex
 
 def distance_sqrd(input_RGB, floss_RGB):
     distance_sqrd = (floss_RGB[0]-input_RGB[0])**2 + (floss_RGB[1]-input_RGB[1])**2 + (floss_RGB[2]-input_RGB[2])**2
@@ -95,11 +96,11 @@ def main():
 
     with open('DMC Floss.csv', 'U') as csv_file:
         reader = csv.DictReader(csv_file)
-        for row in reader:
-            row['Red'] = int(row['Red'])
-            row['Green'] = int(row['Green'])
-            row['Blue'] = int(row['Blue'])
-            floss_list.append(row)
+        for row_dict in reader:
+            row_dict['Red'] = int(row_dict['Red'])
+            row_dict['Green'] = int(row_dict['Green'])
+            row_dict['Blue'] = int(row_dict['Blue'])
+            floss_list.append(row_dict)
             #print row
 
     all_args = args.red, args.green, args.blue, args.picture
@@ -126,7 +127,7 @@ def main():
 
         my_pattern = Pattern(im)
         print my_pattern.render_HTML()
-        print len(my_pattern.floss_num_chart)
+        print floss_list[5]['RGB code']
 
 
     return 0

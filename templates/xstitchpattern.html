@@ -14,7 +14,7 @@
     <tr border="1">
 
         {% for floss_col in range(floss_num_chart|length) %}
-        <td border="1" {# bgcolor="" #}>
+        <td border="1" {# bgcolor='{{}}' #}>
             {{floss_num_chart[floss_row][floss_col]}}
         </td>
         {% endfor %}
