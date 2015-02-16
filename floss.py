@@ -32,7 +32,9 @@ class Pattern(object):
                 r, g, b = image.getpixel((row,col))
                 floss_num = find_floss(r, g, b)
                 if floss_num not in self.floss_symbol_map:
-                    self.floss_symbol_map[floss_num] = self.avail_symbols.pop()
+                    floss_data = {'symbol': self.avail_symbols.pop(), 'count': 0}
+                    self.floss_symbol_map[floss_num] = floss_data
+                self.floss_symbol_map[floss_num]['count'] += 1
                 templist.append(floss_num)
             self.floss_num_chart.append(templist)
 
