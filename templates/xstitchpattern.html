@@ -10,7 +10,7 @@
     {% for floss_row in range(floss_num_chart|length) %}
     <tr border="1">
 
-        {% for floss_col in range(floss_num_chart|length) %}
+        {% for floss_col in range(floss_num_chart[floss_row]|length) %}
         <td border="1" cellpadding="2">
             <table border="0" bgcolor='{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}'>
                 <tr><td>
