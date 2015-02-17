@@ -31,7 +31,7 @@ class Pattern(object):
                 r, g, b = image.getpixel((row,col))
                 floss_num = find_floss(r, g, b)[0]
                 if floss_num not in self.floss_symbol_map:
-                    floss_data = {'symbol': self.avail_symbols.pop(), 'count': 0}
+                    floss_data = {'symbol': self.avail_symbols.pop(), 'count': 0, 'hex': find_floss(r, g, b)[1]}
                     self.floss_symbol_map[floss_num] = floss_data
                 self.floss_symbol_map[floss_num]['count'] += 1
                 templist.append(floss_num)
@@ -126,8 +126,9 @@ def main():
         #print Pattern(im).floss_num_chart
 
         my_pattern = Pattern(im)
-        print my_pattern.render_HTML()
-        print floss_list[5]['RGB code']
+        with open('renderedchart.html', 'w') as htmlfile:
+            htmlfile.write(my_pattern.render_HTML())
+        #print my_pattern.render_HTML()
 
 
     return 0

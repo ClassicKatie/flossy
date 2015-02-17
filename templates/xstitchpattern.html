@@ -2,20 +2,22 @@
 
 <b>Katie is the best</b>
 
-<h2>DMC Floss Number, Symbol, Stitch Count</h2>
-{% for key, value in floss_symbol_map.items() %}
-<li>{{key}}, {{value}}</li>
-{% endfor %}
 
+{# CHART BEGINS HERE #}
 
-<table border="1">
+<table border="1" cellpadding="3">
 
     {% for floss_row in range(floss_num_chart|length) %}
     <tr border="1">
 
         {% for floss_col in range(floss_num_chart|length) %}
-        <td border="1" {# bgcolor='{{}}' #}>
-            {{floss_num_chart[floss_row][floss_col]}}
+        <td border="1">
+            <table border="0" bgcolor='{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}'>
+                <tr><td>
+            {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['symbol']}}
+                </td></tr>
+            </table>
+
         </td>
         {% endfor %}
 
@@ -25,3 +27,13 @@
 
 </table>
 
+
+{# KEY BEGINS HERE #}
+
+<h2>Symbol, DMC Floss Number, Stitch Count</h2>
+{% for key, value in floss_symbol_map.items() %}
+<li>
+    <table width="7" height="7" bgcolor="{{floss_symbol_map[key]['hex']}}"> <tr><td>{{value['symbol']}}</td></tr></table>  {{key}} {{value['count']}}
+
+</li>
+{% endfor %}
