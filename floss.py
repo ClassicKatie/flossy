@@ -31,7 +31,10 @@ class Pattern(object):
                 r, g, b = image.getpixel((row,col))
                 floss_num = find_floss(r, g, b)[0]
                 if floss_num not in self.floss_symbol_map:
-                    floss_data = {'symbol': self.avail_symbols.pop(), 'count': 0, 'hex': find_floss(r, g, b)[1]}
+                    floss_data = {'symbol': self.avail_symbols.pop(),
+                                  'count': 0,
+                                  'hex': find_floss(r, g, b)[1],
+                                  'text_color': get_text_color(r, g, b)}
                     self.floss_symbol_map[floss_num] = floss_data
                 self.floss_symbol_map[floss_num]['count'] += 1
                 templist.append(floss_num)
@@ -49,13 +52,22 @@ class Pattern(object):
         return symbol_chart
 
     def get_context_data(self):
-        return {'floss_symbol_map': self.floss_symbol_map, 'symbol_chart': self.get_symbol_chart(), 'floss_num_chart': self.floss_num_chart}
+        return {'floss_symbol_map': self.floss_symbol_map,
+                'symbol_chart': self.get_symbol_chart(),
+                'floss_num_chart': self.floss_num_chart}
 
     def render_HTML(self):
         template = env.get_template('xstitchpattern.html')
         return template.render(self.get_context_data())
 
     pass
+
+def get_text_color(red, green, blue):
+    bright_sqrd = .299*(red**2) + .587*(green**2) + .114*(blue**2)
+    if bright_sqrd <= (130**2):
+        return 'FFFFFF'
+    else:
+        return '000000'
 
 
 def find_floss(red, green, blue):

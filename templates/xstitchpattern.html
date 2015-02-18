@@ -1,19 +1,51 @@
-<Title>Your Sprite as a Pattern </Title>
+<head>
+    <title> My Little Pattern </title>
+    <style>
+
+        .pattern {
+            border: 1px solid black;
+            font-size: 10px;
+            border-collapse: collapse;
+            horizontal-align: center;
+        }
+
+        .stitches {
+            border: 0px;
+            padding: 1px;
+            font-size: 10px;
+            align: center;
+            width: 100%;
+            text-align: center;
+        }
+
+        .key {
+            font-size: 10px;
+            border: 1px solid black;
+            text-align: center;
+            horizontal-align: center;
+            align: center;
+        }
+    </style>
+
+
+</head>
+
+<body>
 
 <b>Katie is the best</b>
 
 
 {# CHART BEGINS HERE #}
 
-<table border="1">
+<table class="pattern">
 
-    {% for floss_row in range(floss_num_chart|length) %}
-    <tr border="1">
+    {% for floss_col in range(floss_num_chart[0]|length) %}
+    <tr>
 
-        {% for floss_col in range(floss_num_chart[floss_row]|length) %}
-        <td border="1" cellpadding="2">
-            <table border="0" bgcolor='{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}'>
-                <tr><td>
+        {% for floss_row in range(floss_num_chart|length) %}
+        <td class="pattern">
+            <table class="stitches" style="background-color: {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}">
+                <tr><td class="stitches" style="color: {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['text_color']}}">
             {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['symbol']}}
                 </td></tr>
             </table>
@@ -29,11 +61,29 @@
 
 
 {# KEY BEGINS HERE #}
+<br><br>
+<table class="key">
+    <thead><tr>
+        <th>Symbol</th>
+        <th>DMC Floss Number</th>
+        <th>Stitch Count</th>
+    </tr></thead>
+    {% for key, value in floss_symbol_map.items() %}
+    <tr>
+        <td>
+            <table class="stitches" style="color: {{value['text_color']}}">
+                <tr><td style="background-color: {{value['hex']}}">
+                    {{value['symbol']}}
+                </td></tr>
+            </table>
+        </td>
+        <td> {{key}} </td>
+        <td>{{value['count']}}</td>
+    </tr>
+    {% endfor %}
 
-<h2>Symbol, DMC Floss Number, Stitch Count</h2>
-{% for key, value in floss_symbol_map.items() %}
-<li>
-    <table width="7" height="7" bgcolor="{{floss_symbol_map[key]['hex']}}"> <tr><td>{{value['symbol']}}</td></tr></table>  {{key}} {{value['count']}}
+</table>
 
-</li>
-{% endfor %}
+<p style="text-align: right">Made with My Little Pattern</p>
+
+</body>
