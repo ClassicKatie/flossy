@@ -24,6 +24,7 @@
             text-align: center;
             horizontal-align: center;
             align: center;
+            ;
         }
     </style>
 
@@ -44,8 +45,8 @@
 
         {% for floss_row in range(floss_num_chart|length) %}
         <td class="pattern">
-            <table class="stitches" style="background-color: {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}">
-                <tr><td class="stitches" style="color: {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['text_color']}}">
+            <table class="stitches" style="background-color: #{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}">
+                <tr><td class="stitches" style="color: #{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['text_color']}}">
             {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['symbol']}}
                 </td></tr>
             </table>
@@ -67,23 +68,28 @@
         <th>Symbol</th>
         <th>DMC Floss Number</th>
         <th>Stitch Count</th>
+        <th>Hex</th>
     </tr></thead>
     {% for key, value in floss_symbol_map.items() %}
     <tr>
         <td>
-            <table class="stitches" style="color: {{value['text_color']}}">
-                <tr><td style="background-color: {{value['hex']}}">
+            <table class="stitches" style="color: #{{value['text_color']}}">
+                <tr><td style="background-color: #{{value['hex']}}">
                     {{value['symbol']}}
                 </td></tr>
             </table>
         </td>
         <td> {{key}} </td>
         <td>{{value['count']}}</td>
+        <td>{{value['hex']}}</td>
     </tr>
     {% endfor %}
 
 </table>
 
+
+<p style="color: #883e43">Testing Colors</p>
 <p style="text-align: right">Made with My Little Pattern</p>
+
 
 </body>
