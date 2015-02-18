@@ -22,7 +22,7 @@ class Pattern(object):
         image = image.convert('RGB')
 
         self.floss_num_chart = []
-        self.avail_symbols = list(string.lowercase[::-1]) + list(string.uppercase[::-1])
+        self.avail_symbols = list(":,.()-=!@#$%^&*+=?;<>~") + list(string.digits) + list(string.lowercase[::-1]) + list(string.uppercase[::-1])
         self.floss_symbol_map = {}
 
         for row in range(image.size[0]):
@@ -117,6 +117,8 @@ def main():
 
     all_args = args.red, args.green, args.blue, args.picture
     color_args = args.red, args.green, args.blue
+
+
 
 
     if not any(all_args):

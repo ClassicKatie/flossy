@@ -9,6 +9,18 @@
             horizontal-align: center;
         }
 
+        .hgrid{
+            border-bottom: 3px solid black;
+        }
+
+        .vgrid{
+            border-right: 3px solid black;
+        }
+
+        .ltgrid{
+            border: 1px solid black;
+        }
+
         .stitches {
             border: 0px;
             padding: 1px;
@@ -41,10 +53,11 @@
 <table class="pattern">
 
     {% for floss_col in range(floss_num_chart[0]|length) %}
-    <tr>
+    <tr class="{{loop.cycle('ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'hgrid')}}">
 
         {% for floss_row in range(floss_num_chart|length) %}
-        <td class="pattern">
+        <td class="{{loop.cycle('ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'vgrid')}}">
+
             <table class="stitches" style="background-color: #{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}">
                 <tr><td class="stitches" style="color: #{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['text_color']}}">
             {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['symbol']}}
@@ -68,7 +81,6 @@
         <th>Symbol</th>
         <th>DMC Floss Number</th>
         <th>Stitch Count</th>
-        <th>Hex</th>
     </tr></thead>
     {% for key, value in floss_symbol_map.items() %}
     <tr>
@@ -81,14 +93,11 @@
         </td>
         <td> {{key}} </td>
         <td>{{value['count']}}</td>
-        <td>{{value['hex']}}</td>
     </tr>
     {% endfor %}
 
 </table>
 
-
-<p style="color: #883e43">Testing Colors</p>
 <p style="text-align: right">Made with My Little Pattern</p>
 
 
