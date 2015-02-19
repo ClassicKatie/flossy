@@ -40,20 +40,8 @@ class Pattern(object):
                 templist.append(floss_num)
             self.floss_num_chart.append(templist)
 
-    def get_symbol_chart(self):
-        symbol_chart = []
-
-        for row in self.floss_num_chart:
-            templist = []
-            for floss_instance in row:
-                templist.append(self.floss_symbol_map[floss_instance])
-            symbol_chart.append(templist)
-
-        return symbol_chart
-
     def get_context_data(self):
         return {'floss_symbol_map': self.floss_symbol_map,
-                'symbol_chart': self.get_symbol_chart(),
                 'floss_num_chart': self.floss_num_chart}
 
     def render_HTML(self):
@@ -132,12 +120,13 @@ def main():
     elif all(color_args):
         print find_floss(args.red, args.green, args.blue)
 
+    elif all(all_args):
+        parser.print_help()
+        return 1
+
     elif args.picture:
-        # todo: finish
         im = Image.open(args.picture) #Can be many different formats.
         print 'Image size is ', im.size #Get the width and hight of the image for iterating over
-
-        #print Pattern(im).floss_num_chart
 
         my_pattern = Pattern(im)
         with open('renderedchart.html', 'w') as htmlfile:
