@@ -21,6 +21,8 @@ class Pattern(object):
     def __init__(self, image):
         image = image.convert('RGB')
 
+        # print 'Image size is ', im.size Get the width and height of the image for iterating over
+
         self.floss_num_chart = []
         self.avail_symbols = list(":,.()-=!@#$%^&*+=?;<>~") + list(string.digits) + list(string.lowercase[::-1]) + list(string.uppercase[::-1])
         self.floss_symbol_map = {}
@@ -42,7 +44,8 @@ class Pattern(object):
 
     def get_context_data(self):
         return {'floss_symbol_map': self.floss_symbol_map,
-                'floss_num_chart': self.floss_num_chart}
+                'floss_num_chart': self.floss_num_chart,
+                'image_size': self.image.size}
 
     def render_HTML(self):
         template = env.get_template('xstitchpattern.html')
@@ -126,7 +129,6 @@ def main():
 
     elif args.picture:
         im = Image.open(args.picture) #Can be many different formats.
-        print 'Image size is ', im.size #Get the width and hight of the image for iterating over
 
         my_pattern = Pattern(im)
         with open('renderedchart.html', 'w') as htmlfile:

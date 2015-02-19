@@ -1,12 +1,21 @@
 <head>
     <title> My Little Pattern </title>
+
     <style>
+        @media print{
+        html {width: 8.5in; }
+        }
+
+        @media screen{
+        html {width: 900px}
+        }
 
         .pattern {
             border: 1px solid black;
             font-size: 10px;
             border-collapse: collapse;
             horizontal-align: center;
+            width: 100%;
         }
 
         .hgrid{
@@ -24,7 +33,7 @@
         .stitches {
             border: 0px;
             padding: 1px;
-            font-size: 10px;
+            font-size: 7px;
             align: center;
             width: 100%;
             text-align: center;
