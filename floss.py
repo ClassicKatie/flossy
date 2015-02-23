@@ -45,7 +45,8 @@ class Pattern(object):
     def get_context_data(self):
         return {'floss_symbol_map': self.floss_symbol_map,
                 'floss_num_chart': self.floss_num_chart,
-                'image_size': self.image.size}
+                #'image_size': self.image.size()
+        }
 
     def render_HTML(self):
         template = env.get_template('xstitchpattern.html')
