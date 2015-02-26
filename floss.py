@@ -11,6 +11,7 @@ import csv
 import sys
 import argparse
 import string
+import math
 from PIL import Image
 from jinja2 import Environment, PackageLoader, Template
 env = Environment(loader=PackageLoader('floss', 'templates'))
@@ -85,16 +86,18 @@ def find_floss(red, green, blue):
             rgb_hex = item['RGB code']
     return floss_num, rgb_hex
 
+
 def distance_sqrd(input_RGB, floss_RGB):
     distance_sqrd = (floss_RGB[0]-input_RGB[0])**2 + (floss_RGB[1]-input_RGB[1])**2 + (floss_RGB[2]-input_RGB[2])**2
     return distance_sqrd
+
 
 def main():
     parser = argparse.ArgumentParser(description='''Convert RGB Value to DMC Floss #.  Enter either RGB values or a .csv file''')
     parser.add_argument('-r', '--red', metavar='Red', type=int, required=False, help='Enter the Red Value:')
     parser.add_argument('-g', '--green', metavar='Green', type=int, required=False, help='Enter the Green Value:')
     parser.add_argument('-b', '--blue', metavar='Blue', type=int, required=False, help='Enter the Blue Value:')
-    parser.add_argument('-p', '--picture', metavar='Pixellated Image File', required=False, help='Enter path to bmp file')
+    parser.add_argument('-p', '--picture', metavar='Pixellated Image File', required=False, help='Enter path to image, max size 150 x 150 pixels')
 
     args = parser.parse_args()
 
@@ -130,11 +133,16 @@ def main():
 
     elif args.picture:
         im = Image.open(args.picture) #Can be many different formats.
+        image_size = im.size
 
+        # if image_size[0] > 150 and image_size[1] > 150:
+            # parser.print_help()
+            # return 1
+        # else:
         my_pattern = Pattern(im)
         with open('renderedchart.html', 'w') as htmlfile:
             htmlfile.write(my_pattern.render_HTML())
-        #print my_pattern.render_HTML()
+            #print my_pattern.render_HTML()
 
 
     return 0
