@@ -27,8 +27,8 @@ def divide_pattern(floss_num_chart, page_size):
         while len(divided_rows[0]):
             templist = []
             for row in divided_rows:
-                templist.append(row[:75])
-                del row[:75]  # Note, decrease this number compared to number above to have repeated rows in table break
+                templist.append(row[:60])
+                del row[:60]  # Note, decrease this number compared to number above to have repeated rows in table break
             divided_patterns.append(templist)
         del floss_num_chart[:60]
 
@@ -56,8 +56,6 @@ def test_divide_pattern():
     _assert_divide_chart_length((10, 10), (1, 1), 100)
     _assert_divide_chart_length((10, 100), (1, 100), 10)
 
-"""
-
 def create_test_chart(width, height):
     test_chart = []
     for row in range(height):
@@ -71,3 +69,4 @@ def create_test_chart(width, height):
 chart_tester = create_test_chart(100, 100)
 divided_test = divide_pattern(chart_tester, (40, 60))
 
+"""

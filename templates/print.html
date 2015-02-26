@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block tables %}
+
+{% for smaller_table in divided_pattern %}
+
+{% set floss_num_chart = smaller_table %}
+
+{% include "flosstable.html" %}
+
+<p style="text-align: right">Made with My Little Pattern</p>
+
+<br>
+
+{% endfor %}
+
+{% endblock %}

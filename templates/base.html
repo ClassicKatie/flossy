@@ -12,9 +12,10 @@
 
         .pattern {
             border: 1px solid black;
-            font-size: 10px;
+            font-size: 7px;
             border-collapse: collapse;
             horizontal-align: center;
+            page-break-before: always;
         }
 
         .hgrid{
@@ -32,19 +33,19 @@
         .stitches {
             border: 0px;
             padding: 1px;
-            font-size: 7px;
+            font-size: 8px;
             align: center;
             width: 100%;
             text-align: center;
+            font-family: Courier;
         }
 
         .key {
-            font-size: 10px;
+            font-size: 8px;
             border: 1px solid black;
             text-align: center;
             horizontal-align: center;
             align: center;
-            ;
         }
     </style>
 
@@ -52,15 +53,10 @@
 </head>
 
 <body>
-
-<b>Katie is the best</b>
-
-
 {# CHART BEGINS HERE #}
 
 {% block tables %}
 
-{% include "flosstable.html" %}
 
 {% endblock %}
 
@@ -88,7 +84,6 @@
 
 </table>
 
-<p style="text-align: right">Made with My Little Pattern</p>
-
+<p style="text-align: right">Made with My Little Pattern by Katie Ford</p>
 
 </body>
