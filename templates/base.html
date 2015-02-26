@@ -58,29 +58,11 @@
 
 {# CHART BEGINS HERE #}
 
-<table class="pattern">
+{% block tables %}
 
-    {% for floss_col in range(floss_num_chart[0]|length) %}
-    <tr class="{{loop.cycle('ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'hgrid')}}">
+{% include "flosstable.html" %}
 
-        {% for floss_row in range(floss_num_chart|length) %}
-        <td class="{{loop.cycle('ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'ltgrid', 'vgrid')}}">
-
-            <table class="stitches" style="background-color: #{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['hex']}}">
-                <tr><td class="stitches" style="color: #{{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['text_color']}}">
-            {{floss_symbol_map[floss_num_chart[floss_row][floss_col]]['symbol']}}
-                </td></tr>
-            </table>
-
-        </td>
-        {% endfor %}
-
-
-    </tr>
-    {% endfor %}
-
-</table>
-
+{% endblock %}
 
 {# KEY BEGINS HERE #}
 <br><br>

@@ -12,6 +12,7 @@ import sys
 import argparse
 import string
 import math
+import helpers
 from PIL import Image
 from jinja2 import Environment, PackageLoader, Template
 env = Environment(loader=PackageLoader('floss', 'templates'))
@@ -50,10 +51,21 @@ class Pattern(object):
         }
 
     def render_HTML(self):
-        template = env.get_template('xstitchpattern.html')
+        template = env.get_template('screen.html')
         return template.render(self.get_context_data())
 
+    def get_print_context_data(self):
+        page_data = helpers.divide_pattern(self.floss_num_chart, (60, 75))
+        new_context = self.get_context_data()
+        new_context.update({'divided_pattern': page_data})
+        return new_context
+
+    def render_print(self):
+        template = env.get_template('print.html')
+        return template.render(self.get_print_context_data())
+
     pass
+
 
 def get_text_color(red, green, blue):
     bright_sqrd = .299*(red**2) + .587*(green**2) + .114*(blue**2)
@@ -142,6 +154,8 @@ def main():
         my_pattern = Pattern(im)
         with open('renderedchart.html', 'w') as htmlfile:
             htmlfile.write(my_pattern.render_HTML())
+        with open('printchart.html', 'w') as htmlfile:
+            htmlfile.write(my_pattern.render_print())
             #print my_pattern.render_HTML()
 
 

@@ -11,7 +11,7 @@ def divide_pattern(floss_num_chart, page_size):
     :param page_size: tuple of how big each divided chart should be for printing; width, height
     :return: The chart, divided for printing.  Divided should be no larger than 60 x 75
     """
-    
+
     floss_size = (float(len(floss_num_chart[0])), float(len(floss_num_chart)))
     chart_size = (int(math.ceil(floss_size[0]/page_size[0])), int(math.ceil(floss_size[1]/page_size[1])))
     num_patterns = chart_size[0] * chart_size[1]
@@ -21,28 +21,18 @@ def divide_pattern(floss_num_chart, page_size):
     print "chart_size = ", chart_size
     print "num_patterns = ", num_patterns
 
-    for printable_row in range(chart_size[0]):
-        for printable_col in range(chart_size[1]):
-            end_based_on_page_size = (printable_col + 1) * page_size[0] # - 1
-            end_based_on_input_size = int(floss_size[0])
-            end = min(end_based_on_input_size, end_based_on_page_size)
 
-            stitch_row_selection = (printable_col * page_size[0], end)
+    while len(floss_num_chart):
+        divided_rows = floss_num_chart[:60]
+        while len(divided_rows[0]):
+            templist = []
+            for row in divided_rows:
+                templist.append(row[:75])
+                del row[:75]  # Note, decrease this number compared to number above to have repeated rows in table break
+            divided_patterns.append(templist)
+        del floss_num_chart[:60]
 
-            end_based_on_page_size = (printable_row + 1) * page_size[1] # - 1
-            end_based_on_input_size = int(floss_size[1])
-            end = min(end_based_on_input_size, end_based_on_page_size)
-
-            stitch_col_selection = (printable_row * page_size[1], end)
-            smaller_pattern = []
-
-            for stitch_row in range(*stitch_row_selection):
-                templist = []
-                for stitch_col in range(*stitch_col_selection):
-                    templist.append(floss_num_chart[stitch_row][stitch_col])
-                smaller_pattern.append(templist)
-            divided_patterns.append(smaller_pattern)
-    return divided_patterns, chart_size
+    return divided_patterns
 
 
 """ TEST CODE
