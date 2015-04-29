@@ -11,7 +11,6 @@ import csv
 import sys
 import argparse
 import string
-import math
 import helpers
 from PIL import Image
 from jinja2 import Environment, PackageLoader, Template
