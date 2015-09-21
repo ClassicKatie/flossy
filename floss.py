@@ -125,8 +125,6 @@ def main():
     color_args = args.red, args.green, args.blue
 
 
-
-
     if not any(all_args):
         parser.print_help()
         return 1
