@@ -11,5 +11,3 @@ When done, the terminal will output the dimensions of the pattern in printable p
 To find the DMC floss with the closest color to a single RGB value, run the program with -r -g -b arguments:
 
     python floss.py -r 200 -g 5 -b 50
-
-Images in the image folder are not mine and are intended only for demo use.  sorin.png is a sprite from reddit.com/r/MagicTCG and snowglobe.png is a contest winner from pixeljoint.com.  The DMC floss csv is from https://github.com/kohsuke/dmc-cross-stitch.
